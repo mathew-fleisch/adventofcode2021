@@ -2,12 +2,12 @@
 #shellcheck disable=SC2086
 
 inputFile=${1:-input.txt}
-inputLength=$(wc -l $inputFile | awk '{print $1}')
 index=0
 increases=0
 
-echo "Lines: $inputLength"
 IFS=$'\n' read -d '' -r -a values < $inputFile;
+inputLength=${#values[@]}
+echo "Lines: $inputLength"
 
 while [ $index -lt $inputLength ]; do
 
