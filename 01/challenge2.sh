@@ -7,7 +7,7 @@ increases=0
 
 IFS=$'\n' read -d '' -r -a values < $inputFile;
 inputLength=${#values[@]}
-echo "Lines: $inputLength"
+[ $DEBUG -eq 1 ] && echo "Lines: $inputLength"
 
 while [ $index -lt $inputLength ]; do
 
@@ -21,11 +21,11 @@ while [ $index -lt $inputLength ]; do
     direction="+"
   fi
 
-  echo "$index: ${values[$index]} $direction $windowCurrent $compare $windowCompare"
+  [ $DEBUG -eq 1 ] && echo "$index: ${values[$index]} $direction $windowCurrent $compare $windowCompare"
   
   index=$((index+1))
 
 done
 
-echo "Increases: $increases"
+echo "$increases"
 

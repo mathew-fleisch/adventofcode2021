@@ -1,10 +1,11 @@
 #!/bin/bash
 #shellcheck disable=SC2086
 
+DEBUG=${DEUBG:-0}
 inputFile=${1:-input.txt}
 IFS=$'\n' read -d '' -r -a values < $inputFile;
 inputLength=${#values[@]}
-echo "Lines: $inputLength"
+[ $DEBUG -eq 1 ] && echo "Lines: $inputLength"
 lastValue=0
 increases=0
 track=0
@@ -20,8 +21,8 @@ while IFS= read -r val; do
     direction="N/A"
   fi
 
-  echo "$val $direction"
+  [ $DEBUG -eq 1 ] && echo "$val $direction"
   lastValue=$val
 done < $inputFile
 
-echo "Increases: $increases"
+echo "$increases"
