@@ -1,4 +1,4 @@
-DAYS?=$(shell seq -f "%02g" 1 31)
+DAYS?=$(shell seq -f "%02g" 1 25)
 CHALLENGES?=challenge1 challenge2
 
 .PHONY: run
