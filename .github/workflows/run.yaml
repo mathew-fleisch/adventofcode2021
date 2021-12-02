@@ -16,4 +16,8 @@ jobs:
           make seed
           DEBUG=1 make run
           echo "----------------------------------------"
-          DEBUG=0 make run
+          DEBUG=0 make run | tee /tmp/answers.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: answers.txt
+          path: /tmp/answers.txt
