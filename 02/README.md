@@ -74,5 +74,3 @@ Using this new interpretation of the commands, calculate the horizontal position
 ```bash
 ./challenge2.sh ./input.txt
 ```
-
-WRONG: 9945070
