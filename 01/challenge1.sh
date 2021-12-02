@@ -1,7 +1,7 @@
 #!/bin/bash
 #shellcheck disable=SC2086
 
-DEBUG=${DEUBG:-0}
+DEBUG=${DEBUG:-0}
 inputFile=${1:-input.txt}
 IFS=$'\n' read -d '' -r -a values < $inputFile;
 inputLength=${#values[@]}

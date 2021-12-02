@@ -1,6 +1,7 @@
 #!/bin/bash
 #shellcheck disable=SC2086
 
+DEBUG=${DEBUG:-0}
 inputFile=${1:-input.txt}
 index=0
 increases=0
