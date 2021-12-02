@@ -1,4 +1,4 @@
-# Advent of Code 2021 - My Answers
+# Advent of Code 2021 - Mathew Fleisch's Answers
 
 The [Advent of Code](https://adventofcode.com/) is a programming puzzle challenge that gives participants two coding challenges each day during the month of December. This repository holds my submission/answers for these challenges. I am going to try and do all of them in bash, because I hate myself. Enjoy.
 
