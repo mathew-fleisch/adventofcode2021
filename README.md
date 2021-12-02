@@ -4,7 +4,7 @@ The [Advent of Code](https://adventofcode.com/) is a programming puzzle challeng
 
 ## Usage
 
-You can `export DEBUG=1` to see more information as each challenge script is executed.
+Running the make targets 'seed' and 'run' will create stubs for any missing script and execute each challenge script in sequence. Note: `export DEBUG=1` to see more information as each challenge script is executed.
 
 ```bash
 make seed
