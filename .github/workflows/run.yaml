@@ -1,0 +1,19 @@
+# Checkout code on every commit to the main branch
+# Path: .github/workflows/run.yaml
+name: Run Challenge Answers
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-answers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Execute challenge answer scripts
+        run: |
+          make seed
+          DEBUG=1 make run
+          echo "----------------------------------------"
+          DEBUG=0 make run
