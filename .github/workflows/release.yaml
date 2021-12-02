@@ -1,13 +1,13 @@
 # Checkout code on every commit to the main branch
 # Path: .github/workflows/run.yaml
-name: Run Challenge Answers
+name: Release Challenge Answers
 on:
   push:
     tags:
       - '*'
 
 jobs:
-  run-answers:
+  release-answers:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
