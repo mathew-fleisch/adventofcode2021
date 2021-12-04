@@ -16,6 +16,9 @@ make run
  - [2021-12-01 - Sonar Sweep](01)
     - [Challenge 1](01/challenge1.sh) - Count increasing values
     - [Challenge 2](01/challenge2.sh) - Count increasing values in window of 3
- - [2021-12-02 - Submarine Dive](02)
+ - [2021-12-02 - Submarine Dive!](02)
     - [Challenge 1](02/challenge1.sh) - Steer submarine using 3 values
     - [Challenge 2](02/challenge2.sh) - Steer submarine using 4 values
+ - [2021-12-03 - Binary Diagnostic](02)
+    - [Challenge 1](02/challenge1.sh) - filter gamma/epsilon from binary data
+    - [Challenge 2](02/challenge2.sh) - filter o2/co2 from binary data
