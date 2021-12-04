@@ -20,5 +20,5 @@ make run
     - [Challenge 1](02/challenge1.sh) - Steer submarine using 3 values
     - [Challenge 2](02/challenge2.sh) - Steer submarine using 4 values
  - [2021-12-03 - Binary Diagnostic](02)
-    - [Challenge 1](02/challenge1.sh) - filter gamma/epsilon from binary data
-    - [Challenge 2](02/challenge2.sh) - filter o2/co2 from binary data
+    - [Challenge 1](03/challenge1.sh) - filter gamma/epsilon from binary data
+    - [Challenge 2](03/challenge2.sh) - filter o2/co2 from binary data
