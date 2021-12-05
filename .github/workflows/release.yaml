@@ -14,15 +14,13 @@ jobs:
       - name: Execute challenge answer scripts
         run: |
           make seed
-          DEBUG=1 make run | tee /tmp/answers.log
-          echo "----------------------------------------"
           DEBUG=0 make run | tee /tmp/answers.txt
 
       - uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GIT_TOKEN }}
           allowUpdates: true
-          artifacts: "/tmp/answers.*"
+          artifacts: "/tmp/answers.txt"
 
       - name: Tweet Submission
         env:
