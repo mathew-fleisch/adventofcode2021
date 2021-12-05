@@ -2,6 +2,11 @@
 
 The [Advent of Code](https://adventofcode.com/) is a programming puzzle challenge that gives participants two coding challenges each day during the month of December. This repository holds my submission/answers for these challenges. I am going to try and do all of them in bash, because I hate myself. Enjoy.
 
+## Automation
+
+Pushing git tags to this repository will [execute each day's answer](https://github.com/mathew-fleisch/adventofcode2021/actions/workflows/release.yaml) in a [github action](.github/workflows/release.yaml) and save the answers as a txt file in the [release artifacts](https://github.com/mathew-fleisch/adventofcode2021/releases) for that day's tag (format: YYYY.MM.DD). After the release notes have been added an automatic tweet is generated to share the milestone on [my twitter feed](https://twitter.com/draxiomatic). 
+
+
 ## Usage
 
 Running the make targets 'seed' and 'run' will create stubs for any missing script and execute each challenge script in sequence. Note: `export DEBUG=1` to see more information as each challenge script is executed.
