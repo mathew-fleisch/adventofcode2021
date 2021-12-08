@@ -5,6 +5,9 @@ DEBUG=${DEBUG:-0}
 LOGFILE=${LOGFILE:-log2.txt}
 inputFile=${1:-input.txt}
 boardFile=${2:-board2.txt}
+scriptPath=$(realpath $0)
+scriptName=$(basename $scriptPath)
+scriptPath=${scriptPath/\/$scriptName/}
 skipDiagonals=${3:-0}
 boardSize=${4:-1000}
 
@@ -21,7 +24,7 @@ if [ $boardSize -eq 10 ]; then
   done
 else
   # Initialize 1000x1000 element array (generated from ./generate-intializer.sh)
-  source initialize-variables.sh
+  source "${scriptPath}/initialize-variables.sh"
 fi
 
 convertsecs() {

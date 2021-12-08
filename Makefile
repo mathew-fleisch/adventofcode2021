@@ -11,7 +11,7 @@ run:
 		echo "<============= 2021/12/${day} =============>" \
 			&& $(foreach challenge, $(CHALLENGES), \
 			echo "#> ./${day}/${challenge}.sh ./${day}/input.txt" \
-				&& ./${day}/${challenge}.sh ./${day}/input.txt; ))
+				&& DEBUG=1 ./${day}/${challenge}.sh ./${day}/input.txt; ))
 
 
 .PHONY: seed
