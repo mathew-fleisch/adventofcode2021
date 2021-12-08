@@ -30,3 +30,7 @@ make run
  - [2021-12-04 - Giant Squid](04)
     - [Challenge 1](04/challenge1.sh) - find bingo winner
     - [Challenge 2](04/challenge2.sh) - find bingo loser
+ - [2021-12-05 - Hydrothermal Venture](05)
+    - [Challenge 1](05/challenge1.sh) - Draw horizontal/vertical lines and count overlap
+    - [Challenge 2](05/challenge2.sh) - Draw horizontal/vertical/diagonal lines and count overlap
+
