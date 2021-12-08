@@ -14,9 +14,8 @@ jobs:
       - name: Execute challenge answer scripts
         run: |
           make seed
-          DEBUG=1 make run
           echo "----------------------------------------"
-          DEBUG=0 make run | tee /tmp/answers.txt
+          DEBUG=1 make run | tee /tmp/answers.txt
       - uses: actions/upload-artifact@v2
         with:
           name: answers.txt
