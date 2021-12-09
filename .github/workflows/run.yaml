@@ -2,9 +2,8 @@
 # Path: .github/workflows/run.yaml
 name: Run Challenge Answers
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [ assigned, opened, synchronize, reopened ]
 
 jobs:
   run-answers:
