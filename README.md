@@ -31,6 +31,8 @@ make run
     - [Challenge 1](04/challenge1.sh) - find bingo winner
     - [Challenge 2](04/challenge2.sh) - find bingo loser
  - [2021-12-05 - Hydrothermal Venture](05)
-    - [Challenge 1](05/challenge1.sh) - Draw horizontal/vertical lines and count overlap
-    - [Challenge 2](05/challenge2.sh) - Draw horizontal/vertical/diagonal lines and count overlap
-
+    - [Challenge 1](05/challenge1.sh) - draw horizontal/vertical lines and count overlap
+    - [Challenge 2](05/challenge2.sh) - draw horizontal/vertical/diagonal lines and count overlap
+ - [2021-12-06 - Lanternfish](06)
+    - [Challenge 1](06/challenge1.sh) - exponential fish for 80 days
+    - [Challenge 2](06/challenge2.sh) - exponential fish for 256 days
