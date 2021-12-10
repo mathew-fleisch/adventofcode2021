@@ -36,6 +36,9 @@ make run
  - [2021-12-06 - Lanternfish](06)
     - [Challenge 1](06/challenge1.sh) - exponential fish for 80 days
     - [Challenge 2](06/challenge2.sh) - exponential fish for 256 days
- - [2021-12-08 - Seven Segment Search](08)
+ - [2021-12-07 - The Treachery of Whales](07)
+    - [Challenge 1](07/challenge1.sh) - align crabs efficiently with linear fuel expenditures
+    - [Challenge 2](07/challenge2.sh) - align crabs efficiently with exponential fuel expenditures
+- [2021-12-08 - Seven Segment Search](08)
     - [Challenge 1](08/challenge1.sh) - count 1's, 4's, 7's and 8's from decoded input
     - [Challenge 2](08/challenge2.sh) - sum of all decoded input
