@@ -36,3 +36,6 @@ make run
  - [2021-12-06 - Lanternfish](06)
     - [Challenge 1](06/challenge1.sh) - exponential fish for 80 days
     - [Challenge 2](06/challenge2.sh) - exponential fish for 256 days
+ - [2021-12-07 - The Treachery of Whales](07)
+    - [Challenge 1](07/challenge1.sh) - align crabs efficiently with linear fuel expenditures
+    - [Challenge 2](07/challenge2.sh) - align crabs efficiently with exponential fuel expenditures
