@@ -1,3 +1,4 @@
 .answer*
 .DS_Store
 log*.txt
+state.txt

@@ -2,12 +2,11 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
-LOGFILE=${LOGFILE:-log1.txt}
+LOGFILE=${LOGFILE:-log2.txt}
 scriptPath=$(realpath $0)
 scriptName=$(basename $scriptPath)
 scriptPath=${scriptPath/\/$scriptName/}
 inputFile=${1:-input.txt}
-# days=${2:-80}
 
 started=$(date +%s)
 echo "$started" > $LOGFILE
@@ -250,7 +249,8 @@ counts=()
 answer_two=0
 for (( u=0; u<=9; u++ )); do counts[$u]=0; done
 for ((row=0; row<inputLength; row++)); do
-  # echo "${values[$row]}"
+  echo "${values[$row]}" >> $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "${values[$row]}"
   answer=$(decode_row "${values[$row]}")
   nonzero=0
   ta=""
@@ -259,9 +259,9 @@ for ((row=0; row<inputLength; row++)); do
     [ $v -ne 0 ] && nonzero=1
     [ $nonzero -gt 0 ] && ta="${ta}${v}"
   done
-  # echo "ta: $ta"
   answer_two=$((answer_two+ta))
-  # echo "$row: $answer"
+  echo "$row: $answer" >> $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "$row: $answer"
   for (( z=0; z<${#answer}; z++ )); do
     d=${answer:$z:1}
     w=counts[$d]
@@ -270,25 +270,32 @@ for ((row=0; row<inputLength; row++)); do
   answers[$row]=$answer
 done
 
-# echo "${answers[*]}"
+echo "${answers[*]}" >> $LOGFILE
 answer_one=0
 for (( digit=0; digit<=9; digit++ )); do
   tcount=${counts[$digit]}
-  # echo "$digit: $tcount"
   case $digit in
     1)
       answer_one=$((answer_one+tcount))
+      echo "$digit: $tcount" >> $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
       ;;
     4)
       answer_one=$((answer_one+tcount))
+      echo "$digit: $tcount" >> $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
       ;;
     7)
       answer_one=$((answer_one+tcount))
+      echo "$digit: $tcount" >> $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
       ;;
     8)
       answer_one=$((answer_one+tcount))
+      echo "$digit: $tcount" >> $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
       ;;
   esac
 done
 
-echo "$answer_two"
+echo "$answer_two" | tee -a $LOGFILE
