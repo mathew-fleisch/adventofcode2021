@@ -2,9 +2,21 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
+LOGFILE=${LOGFILE:-log-day04-challenge2.txt}
 inputFile=${1:-input.txt}
 
+started=$(date +%s)
+echo "$started" > $LOGFILE
+
 IFS=$'\n' read -d '' -r -a values < $inputFile;
+
+convertsecs() {
+  ((h=${1}/3600))
+  ((m=(${1}%3600)/60))
+  ((s=${1}%60))
+  printf "%02d:%02d:%02d\n" $h $m $s
+}
+
 inputLength=${#values[@]}
 winner=$inputLength
 loser=0
@@ -16,6 +28,9 @@ random=${values[0]//,/ }
 
 [ $DEBUG -eq 1 ] && echo "---Input---"
 [ $DEBUG -eq 1 ] && echo "$random"
+
+echo "---Input---" >> $LOGFILE
+echo "$random" >> $LOGFILE
 
 track=0
 
@@ -155,12 +170,14 @@ evaluate_board() {
     losing_value=$((rand * leftover_sum))
   fi
   [ $DEBUG -eq 1 ] && echo $((rand * leftover_sum))
+  echo $((rand * leftover_sum)) >> $LOGFILE
 }
 
 # This iteration will cycle through each bingo board
 while [ $row -lt $inputLength ]; do
   track=$((track+1))
   [ $DEBUG -eq 1 ] && echo "-----$track-----"
+  echo "-----$track-----" >> $LOGFILE
 
   # Evaluate bingo board
   thisBoard="${values[row+0]} ${values[row+1]} ${values[row+2]} ${values[row+3]} ${values[row+4]} "
@@ -172,4 +189,11 @@ done
 
 [ $DEBUG -eq 1 ] && echo "BINGO Winner[$winner]: $winning_value"
 [ $DEBUG -eq 1 ] && echo "BINGO Loser[$loser]: $losing_value"
-echo $losing_value
+
+echo "BINGO Winner[$winner]: $winning_value" >> $LOGFILE
+echo "BINGO Loser[$loser]: $losing_value" >> $LOGFILE
+echo $losing_value | tee -a $LOGFILE
+
+now=$(date +%s)
+diff=$((now-started))
+echo "Completed in: $(convertsecs $diff)" >> $LOGFILE

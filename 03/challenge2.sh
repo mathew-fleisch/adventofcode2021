@@ -2,8 +2,9 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
+LOGFILE=${LOGFILE:-log-day03-challenge2.txt}
 inputFile=${1:-input.txt}
-echo "" > log.txt
+echo "" > $LOGFILE
 filter_calculate() {
   tmp=$1
   values=()
@@ -43,16 +44,16 @@ filter_calculate() {
   done
   valLength=${#values[*]}
 
-  echo "----------------" >> log.txt
-  echo "place: $place" >> log.txt
-  echo "          :                     1 1" >> log.txt
-  echo "          : 0 1 2 3 4 5 6 7 8 9 0 1" >> log.txt
-  echo "buckets[*]: ${buckets[*]}" >> log.txt
-  echo "buckets[$place]: ${buckets[$place]}" >> log.txt
-  echo "      ones: ${#one[*]}" >> log.txt
-  echo "     zeros: ${#zero[*]}" >> log.txt
-  echo " valLength: ${valLength}" >> log.txt
-  echo "values: ${values[*]}" >> log.txt
+  echo "----------------" >> $LOGFILE
+  echo "place: $place" >> $LOGFILE
+  echo "          :                     1 1" >> $LOGFILE
+  echo "          : 0 1 2 3 4 5 6 7 8 9 0 1" >> $LOGFILE
+  echo "buckets[*]: ${buckets[*]}" >> $LOGFILE
+  echo "buckets[$place]: ${buckets[$place]}" >> $LOGFILE
+  echo "      ones: ${#one[*]}" >> $LOGFILE
+  echo "     zeros: ${#zero[*]}" >> $LOGFILE
+  echo " valLength: ${valLength}" >> $LOGFILE
+  echo "values: ${values[*]}" >> $LOGFILE
   # If there is a tie, break it based on oneorzero
   if [ ${#one[*]} -eq ${#zero[*]} ] && [ $oneorzero -eq 1 ]; then
     echo "${one[*]}"
@@ -66,8 +67,8 @@ filter_calculate() {
         echo "${zero[*]}"
       fi
     else
-      echo "zero: ${zero[*]}" >> log.txt
-      echo " one: ${one[*]}" >> log.txt
+      echo "zero: ${zero[*]}" >> $LOGFILE
+      echo " one: ${one[*]}" >> $LOGFILE
       if [ ${buckets[$place]} -gt $((valLength / 2)) ]; then
         echo "${zero[*]}"
       else
@@ -79,14 +80,24 @@ filter_calculate() {
 
 # -----------------------------
 
+started=$(date +%s)
+echo "$started" > $LOGFILE
+
 IFS=$'\n' read -d '' -r -a values < $inputFile;
-# [ $DEBUG -eq 1 ] && echo "Lines: ${#values[@]}"
+
+convertsecs() {
+  ((h=${1}/3600))
+  ((m=(${1}%3600)/60))
+  ((s=${1}%60))
+  printf "%02d:%02d:%02d\n" $h $m $s
+}
 
 trackBucket=0
 while [ $trackBucket -lt ${#values[0]} ]; do
   buckets[$trackBucket]=0
   [ ${#values[@]} -eq 1 ] && break
   [ $DEBUG -eq 1 ] && echo " values: ${values[*]}"
+  echo " values: ${values[*]}" >> $LOGFILE
   tmp=$(filter_calculate "${values[*]}" $trackBucket 1)
   values=()
   for t in $tmp; do values+=("$t"); done
@@ -97,7 +108,7 @@ otwo=$((2#$botwo))
 
 
 # -----------------------------
-echo "===========================================" >> log.txt
+echo "===========================================" >> $LOGFILE
 [ $DEBUG -eq 1 ] && echo "==========================================="
 
 IFS=$'\n' read -d '' -r -a values < $inputFile;
@@ -122,10 +133,14 @@ cotwo=$((2#$bcotwo))
 [ $DEBUG -eq 1 ] && echo "     o2: $otwo"
 [ $DEBUG -eq 1 ] && echo "    co2: $cotwo"
 
-echo "  o2bin: $botwo" >> log.txt
-echo "     o2: $otwo" >> log.txt
-echo " co2bin: $bcotwo" >> log.txt
-echo "    co2: $cotwo" >> log.txt
+echo "  o2bin: $botwo" >> $LOGFILE
+echo "     o2: $otwo" >> $LOGFILE
+echo " co2bin: $bcotwo" >> $LOGFILE
+echo "    co2: $cotwo" >> $LOGFILE
 
-echo "$otwo * $cotwo = $((otwo * cotwo))" >> log.txt
-echo "$((otwo * cotwo))"
+echo "$otwo * $cotwo = $((otwo * cotwo))" >> $LOGFILE
+echo "$((otwo * cotwo))" | tee -a $LOGFILE
+
+now=$(date +%s)
+diff=$((now-started))
+echo "Completed in: $(convertsecs $diff)" >> $LOGFILE

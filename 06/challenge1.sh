@@ -2,7 +2,7 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
-LOGFILE=${LOGFILE:-log1.txt}
+LOGFILE=${LOGFILE:-log-day06-challenge1.txt}
 scriptPath=$(realpath $0)
 scriptName=$(basename $scriptPath)
 scriptPath=${scriptPath/\/$scriptName/}
@@ -22,6 +22,7 @@ convertsecs() {
 }
 
 [ $DEBUG -eq 1 ] && echo "$values"
+echo "$values" >> $LOGFILE
 
 fi=0
 fh=0
@@ -64,6 +65,7 @@ for ((day=1; day<=days; day++)); do
   now=$(date +%s)
   diff=$((now-started))
   [ $DEBUG -eq 1 ] && echo "Day $day: $numFish $(convertsecs $diff)"
+  echo "Day $day: $numFish $(convertsecs $diff)" >> $LOGFILE
   [ $fa -gt 0 ] && ft=$fa || ft=0
   fa=$fb
   fb=$fc
@@ -84,11 +86,22 @@ for ((day=1; day<=days; day++)); do
   [ $DEBUG -eq 1 ] && echo "f[7]: $fh"
   [ $DEBUG -eq 1 ] && echo "f[8]: $fi"
   [ $DEBUG -eq 1 ] && echo "f[t]: $ft"
+
+  echo "f[0]: $fa" >> $LOGFILE
+  echo "f[1]: $fb" >> $LOGFILE
+  echo "f[2]: $fc" >> $LOGFILE
+  echo "f[3]: $fd" >> $LOGFILE
+  echo "f[4]: $fe" >> $LOGFILE
+  echo "f[5]: $ff" >> $LOGFILE
+  echo "f[6]: $fg" >> $LOGFILE
+  echo "f[7]: $fh" >> $LOGFILE
+  echo "f[8]: $fi" >> $LOGFILE
+  echo "f[t]: $ft" >> $LOGFILE
 done
 
-echo $((fa + fb + fc + fd + fe + ff + fg + fh + fi))
+echo $((fa + fb + fc + fd + fe + ff + fg + fh + fi)) | tee -a $LOGFILE
 
 now=$(date +%s)
 diff=$((now-started))
-echo "Completed: $(convertsecs $diff)" >> $LOGFILE
+echo "Completed in: $(convertsecs $diff)" >> $LOGFILE
 

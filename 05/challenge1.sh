@@ -2,7 +2,7 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
-LOGFILE=${LOGFILE:-log1.txt}
+LOGFILE=${LOGFILE:-log-day05-challenge1.txt}
 scriptPath=$(realpath $0)
 scriptName=$(basename $scriptPath)
 scriptPath=${scriptPath/\/$scriptName/}
@@ -52,8 +52,10 @@ draw_line() {
     ymin=$y2
     ymax=$y1
   fi
-  [ $DEBUG -eq 1 ] && echo "draw_line(${x1}x${y1} -> ${x2}x${y2})" | tee -a $LOGFILE
-  [ $DEBUG -eq 1 ] && echo "xmin:$xmin xmax:$xmax ymin:$ymin ymax:$ymax" | tee -a $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "draw_line(${x1}x${y1} -> ${x2}x${y2})"
+  echo "draw_line(${x1}x${y1} -> ${x2}x${y2})" >> $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "xmin:$xmin xmax:$xmax ymin:$ymin ymax:$ymax"
+  echo "xmin:$xmin xmax:$xmax ymin:$ymin ymax:$ymax" >> $LOGFILE
   line_length=0
   if [ $x1 -ne $x2 ] && [ $y1 -ne $y2 ]; then
     y=$y1
@@ -121,18 +123,22 @@ evaluate_line() {
   if [ $x1 -ne $x2 ] && [ $y1 -ne $y2 ]; then
     # Ignore diagonals
     if [ $skipDiag -eq 1 ]; then
-      [ $DEBUG -eq 1 ] && echo "Diagonal line... skip!" | tee -a $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "Diagonal line... skip!"
+      echo "Diagonal line... skip!" >> $LOGFILE
     else
-      [ $DEBUG -eq 1 ] && echo "Diagonal line... don't skip! :(" | tee -a $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "Diagonal line... don't skip! :("
+      echo "Diagonal line... don't skip! :(" >> $LOGFILE
       draw_line $x1 $x2 $y1 $y2
     fi
   else
     # This should be a horizontal or vertical line
     if [ $x1 -eq $x2 ]; then
-      [ $DEBUG -eq 1 ] && echo "Vertical line" | tee -a $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "Vertical line"
+      echo "Vertical line" >> $LOGFILE
       draw_line $x1 $x2 $y1 $y2
     else
-      [ $DEBUG -eq 1 ] && echo "Horizontal line" | tee -a $LOGFILE
+      [ $DEBUG -eq 1 ] && echo "Horizontal line"
+      echo "Horizontal line" >> $LOGFILE
       draw_line $x1 $x2 $y1 $y2
     fi
     
@@ -141,11 +147,14 @@ evaluate_line() {
 
 # This iteration will cycle through each line vector
 for ((row=0; row<inputLength; row++)); do
-  [ $DEBUG -eq 1 ] && echo "-----$row-----" | tee -a $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "-----$row-----"
+  echo "-----$row-----" >> $LOGFILE
   now=$(date +%s)
   diff=$((now-started))
-  [ $DEBUG -eq 1 ] && echo "Runtime: $(convertsecs $diff)" | tee -a $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "Runtime: $(convertsecs $diff)"
+  echo "Runtime: $(convertsecs $diff)" >> $LOGFILE
   [ $DEBUG -eq 1 ] && echo "${values[$row]}"
+  echo "${values[$row]}" >> $LOGFILE
   evaluate_line "${values[$row]}" $skipDiagonals
 done
 
@@ -171,7 +180,8 @@ if [ -f $boardFile ]; then
     | tee -a $LOGFILE
 else
   echo "" > $boardFile
-  [ $DEBUG -eq 1 ] && echo "Saving board output: $(convertsecs $diff)" | tee -a $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "Saving board output: $(convertsecs $diff)"
+  echo "Saving board output: $(convertsecs $diff)" >> $LOGFILE
   for ((y=0; y<boardSize; y++)); do
     row=""
     for ((x=0; x<boardSize; x++)); do
@@ -184,14 +194,16 @@ else
     done
     echo "$row" >> $boardFile
     [ $DEBUG -eq 1 ] && echo "row: ${y}"
+    echo "row: ${y}" >> $LOGFILE
   done
   echo "$intersections" | tee -a $LOGFILE
 fi
 
-if [ $boardSize -eq 10 ] && [ $DEBUG -eq 1 ]; then
-  cat $boardFile
+if [ $boardSize -eq 10 ]; then
+  [ $DEBUG -eq 1 ] && cat $boardFile
+  cat $boardFile >> $LOGFILE
 fi
 
 now=$(date +%s)
 diff=$((now-started))
-echo "Completed: $(convertsecs $diff)" >> $LOGFILE
+echo "Completed in: $(convertsecs $diff)" >> $LOGFILE

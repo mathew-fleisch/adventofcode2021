@@ -2,7 +2,7 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
-LOGFILE=${LOGFILE:-log2.txt}
+LOGFILE=${LOGFILE:-log-day08-challenge2.txt}
 scriptPath=$(realpath $0)
 scriptName=$(basename $scriptPath)
 scriptPath=${scriptPath/\/$scriptName/}
@@ -249,8 +249,8 @@ counts=()
 answer_two=0
 for (( u=0; u<=9; u++ )); do counts[$u]=0; done
 for ((row=0; row<inputLength; row++)); do
-  echo "${values[$row]}" >> $LOGFILE
   [ $DEBUG -eq 1 ] && echo "${values[$row]}"
+  echo "${values[$row]}" >> $LOGFILE
   answer=$(decode_row "${values[$row]}")
   nonzero=0
   ta=""
@@ -260,8 +260,8 @@ for ((row=0; row<inputLength; row++)); do
     [ $nonzero -gt 0 ] && ta="${ta}${v}"
   done
   answer_two=$((answer_two+ta))
-  echo "$row: $answer" >> $LOGFILE
   [ $DEBUG -eq 1 ] && echo "$row: $answer"
+  echo "$row: $answer" >> $LOGFILE
   for (( z=0; z<${#answer}; z++ )); do
     d=${answer:$z:1}
     w=counts[$d]
@@ -277,25 +277,29 @@ for (( digit=0; digit<=9; digit++ )); do
   case $digit in
     1)
       answer_one=$((answer_one+tcount))
-      echo "$digit: $tcount" >> $LOGFILE
       [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
+      echo "$digit: $tcount" >> $LOGFILE
       ;;
     4)
       answer_one=$((answer_one+tcount))
-      echo "$digit: $tcount" >> $LOGFILE
       [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
+      echo "$digit: $tcount" >> $LOGFILE
       ;;
     7)
       answer_one=$((answer_one+tcount))
-      echo "$digit: $tcount" >> $LOGFILE
       [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
+      echo "$digit: $tcount" >> $LOGFILE
       ;;
     8)
       answer_one=$((answer_one+tcount))
-      echo "$digit: $tcount" >> $LOGFILE
       [ $DEBUG -eq 1 ] && echo "$digit: $tcount"
+      echo "$digit: $tcount" >> $LOGFILE
       ;;
   esac
 done
 
 echo "$answer_two" | tee -a $LOGFILE
+
+now=$(date +%s)
+diff=$((now-started))
+echo "Completed in: $(convertsecs $diff)" >> $LOGFILE
