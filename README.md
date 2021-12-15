@@ -1,4 +1,6 @@
-# Advent of Code 2021 - Mathew Fleisch's Answers
+# Advent of Code 2021 - Mathew Fleisch's
+
+[![Build binaries](https://github.com/mathew-fleisch/adventofcode2021/actions/workflows/release.yaml/badge.svg)](https://github.com/mathew-fleisch/adventofcode2021/actions/workflows/release.yaml)
 
 The [Advent of Code](https://adventofcode.com/) is a programming puzzle challenge that gives participants two coding challenges each day during the month of December. This repository holds my submission/answers for these challenges. I am going to try and do all of them in bash, because I hate myself. Enjoy.
 
@@ -45,3 +47,6 @@ make run
 - [2021-12-09 - Smoke Basin](09)
     - [Challenge 1](09/challenge1.sh) - find lowest points in grid of numbers
     - [Challenge 2](09/challenge2.sh) - find biggest three blobs from grid of numbers
+- [2021-12-10 - Syntax Scoring](10)
+    - [Challenge 1](10/challenge1.sh) - find unbalanced brackets
+    - [Challenge 2](10/challenge2.sh) - complete unbalanced brackets
