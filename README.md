@@ -1,4 +1,4 @@
-# Advent of Code 2021 - Mathew Fleisch's
+# Advent of Code 2021 - Mathew Fleisch
 
 [![Build binaries](https://github.com/mathew-fleisch/adventofcode2021/actions/workflows/release.yaml/badge.svg)](https://github.com/mathew-fleisch/adventofcode2021/actions/workflows/release.yaml)
 
