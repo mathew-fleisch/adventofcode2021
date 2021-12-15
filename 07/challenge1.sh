@@ -2,15 +2,14 @@
 #shellcheck disable=SC2086
 
 DEBUG=${DEBUG:-0}
-LOGFILE=${LOGFILE:-log1.txt}
+LOGFILE=${LOGFILE:-log-day07-challenge1.txt}
 scriptPath=$(realpath $0)
 scriptName=$(basename $scriptPath)
 scriptPath=${scriptPath/\/$scriptName/}
 inputFile=${1:-input.txt}
-# days=${2:-80}
 
 started=$(date +%s)
-# echo "$started" > $LOGFILE
+echo "$started" > $LOGFILE
 
 IFS=$'\n' read -d '' -r -a values < $inputFile;
 
@@ -30,6 +29,8 @@ for crab in ${values//,/ }; do
 done
 [ $DEBUG -eq 1 ] && echo "Smallest: $smallest"
 [ $DEBUG -eq 1 ] && echo "Largest: $largest"
+echo "Smallest: $smallest" >> $LOGFILE
+echo "Largest: $largest" >> $LOGFILE
 
 evaluate_target() {
   crabs=$1
@@ -53,8 +54,13 @@ for ((crab=360; crab<=largest; crab++)); do
   diff=$((now-started))
   [ $thisFuel -lt $best ] && best=$thisFuel && notfound=0
   [ $DEBUG -eq 1 ] && echo "$crab: $thisFuel $(convertsecs $diff) => $best"
+  echo "$crab: $thisFuel $(convertsecs $diff) => $best" >> $LOGFILE
   notfound=$((notfound+1))
   [ $notfound -gt 1 ] && break
 done
 
-echo $best
+echo $best | tee -a $LOGFILE
+
+now=$(date +%s)
+diff=$((now-started))
+echo "Completed in: $(convertsecs $diff)" >> $LOGFILE

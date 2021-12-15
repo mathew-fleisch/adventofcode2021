@@ -14,8 +14,13 @@ jobs:
         run: |
           make seed
           echo "----------------------------------------"
-          DEBUG=1 make run | tee /tmp/answers.txt
+          make run | tee /tmp/aoc2021-mathew-fleisch-answers.txt
+          make zip-log
       - uses: actions/upload-artifact@v2
         with:
-          name: answers.txt
-          path: /tmp/answers.txt
+          name: aoc2021-mathew-fleisch-answers.txt
+          path: /tmp/aoc2021-mathew-fleisch-answers.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: aoc2021-mathew-fleisch-logs.zip
+          path: /tmp/aoc2021-mathew-fleisch-logs.zip

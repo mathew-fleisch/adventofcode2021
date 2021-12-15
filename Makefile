@@ -1,5 +1,6 @@
 DAYS?=$(shell seq -f "%02g" 1 25)
 CHALLENGES?=challenge1 challenge2
+TMPDIR?=/tmp
 
 .PHONY: run
 run:
@@ -11,7 +12,7 @@ run:
 		echo "<============= 2021/12/${day} =============>" \
 			&& $(foreach challenge, $(CHALLENGES), \
 			echo "#> ./${day}/${challenge}.sh ./${day}/input.txt" \
-				&& DEBUG=1 ./${day}/${challenge}.sh ./${day}/input.txt; ))
+				&& ./${day}/${challenge}.sh ./${day}/input.txt; ))
 
 
 .PHONY: seed
@@ -32,3 +33,9 @@ seed:
 				fi \
 				&& echo "#> chmod +x ./${day}/${challenge}.sh" \
 				&& chmod +x ./${day}/${challenge}.sh; ))
+
+.PHONY: zip-log
+zip-log:
+	@mkdir -p $(TMPDIR)/aoc2021-mathew-fleisch-logs
+	@cp log-* $(TMPDIR)/aoc2021-mathew-fleisch-logs
+	@zip -r $(TMPDIR)/aoc2021-mathew-fleisch-logs.zip $(TMPDIR)/aoc2021-mathew-fleisch-logs
