@@ -113,7 +113,6 @@ for (( r=0; r<${#values[*]}; r++ )); do
         unset valid[$((${#valid[*]}-1))]
         unset valid[$((${#valid[*]}-1))]
         echo " after[h]: ${valid[*]}" >> $LOGFILE
-         echo " after[h]: ${valid[*]}"
         ;;
     esac
     [ $DEBUG -eq 1 ] && echo "a[${#valid[*]}][$r]: ${valid[*]}"
