@@ -42,3 +42,6 @@ make run
 - [2021-12-08 - Seven Segment Search](08)
     - [Challenge 1](08/challenge1.sh) - count 1's, 4's, 7's and 8's from decoded input
     - [Challenge 2](08/challenge2.sh) - sum of all decoded input
+- [2021-12-09 - Smoke Basin](09)
+    - [Challenge 1](09/challenge1.sh) - find lowest points in grid of numbers
+    - [Challenge 2](09/challenge2.sh) - find biggest three blobs from grid of numbers
