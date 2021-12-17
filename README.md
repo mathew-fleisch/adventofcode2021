@@ -50,3 +50,6 @@ make run
 - [2021-12-10 - Syntax Scoring](10)
     - [Challenge 1](10/challenge1.sh) - find unbalanced brackets
     - [Challenge 2](10/challenge2.sh) - complete unbalanced brackets
+- [2021-12-11 - Dumbo Octopus](11)
+    - [Challenge 1](11/challenge1.sh) - count flashes in grid of numbers
+    - [Challenge 2](11/challenge2.sh) - count number of steps until synchronization
