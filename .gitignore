@@ -2,3 +2,4 @@
 .DS_Store
 log*.txt
 state.txt
+template.sh
