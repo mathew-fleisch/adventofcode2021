@@ -161,6 +161,7 @@ for (( i=0; i<numFold; i++ )); do
       if [ $((yu%100)) -eq 0 ]; then
         now=$(date +%s)
         diff=$((now-started))
+        [ $DEBUG -eq 1 ] && echo "folding y axis[$yu]... $(convertsecs $diff)"
         echo "folding y axis[$yu]... $(convertsecs $diff)" >> $LOGFILE
       fi
       # echo "------ $yu $yd ------" >> $LOGFILE
@@ -189,6 +190,7 @@ for (( i=0; i<numFold; i++ )); do
       if [ $((ty%100)) -eq 0 ]; then
         now=$(date +%s)
         diff=$((now-started))
+        [ $DEBUG -eq 1 ] && echo "folding x axis[$ty]... $(convertsecs $diff)"
         echo "folding x axis[$ty]... $(convertsecs $diff)" >> $LOGFILE
       fi
       xl=$((limitX-1))
