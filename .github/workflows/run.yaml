@@ -18,7 +18,7 @@ jobs:
           done
           make seed
           echo "----------------------------------------"
-          make run | tee /tmp/aoc2021-mathew-fleisch-answers.txt
+          make run-day | tee /tmp/aoc2021-mathew-fleisch-answers.txt
           make zip-log
       - uses: actions/upload-artifact@v2
         with:
