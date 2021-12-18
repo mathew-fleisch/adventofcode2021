@@ -219,11 +219,12 @@ for (( i=0; i<numFold; i++ )); do
 
   answer=0
   overlap=0
-  # for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
-  for (( w=0; w<${#n[@]}; w++ )); do
-    if [ ${n[$w]} -gt 0 ]; then
-      answer=$((answer+1))
-      overlap=$((overlap+n[w]))
+  for (( w=0; w<$((limitX*limitY)); w++ )); do
+    if [ ${n[$w]} ]; then
+      if [ ${n[$w]} -gt 0 ]; then
+        answer=$((answer+1))
+        overlap=$((overlap+n[w]))
+      fi
     fi
   done
   [ $i -eq 0 ] && answer_one=$answer
