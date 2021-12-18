@@ -10,8 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: jitterbit/get-changed-files@v1
       - name: Execute challenge answer scripts
         run: |
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            echo "Do something with this ${changed_file}."
+          done
           make seed
           echo "----------------------------------------"
           make run | tee /tmp/aoc2021-mathew-fleisch-answers.txt
