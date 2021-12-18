@@ -224,6 +224,7 @@ for (( i=0; i<numFold; i++ )); do
   [ $DEBUG -eq 1 ] && echo "        Count[$i]: $answer"
   echo "Overlap Count[$i]: $overlap" >> $LOGFILE
   echo "        Count[$i]: $answer" >> $LOGFILE
+  echo "      First Count: $answer_one" >> $LOGFILE
 done
 
 now=$(date +%s)
