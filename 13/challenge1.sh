@@ -56,6 +56,7 @@ display_board() {
   done
 }
 
+
 # Parse source data
 now=$(date +%s)
 diff=$((now-started))
@@ -196,8 +197,8 @@ for (( i=0; i<numFold; i++ )); do
       if [ $((ty%100)) -eq 0 ]; then
         now=$(date +%s)
         diff=$((now-started))
-        [ $DEBUG -eq 1 ] && echo "folding x axis[$ty]... $(convertsecs $diff)"
-        echo "folding x axis[$ty]... $(convertsecs $diff)" >> $LOGFILE
+        [ $DEBUG -eq 1 ] && echo "folding x axis[$ty]: $(convertsecs $diff)"
+        echo "folding x axis[$ty]: $(convertsecs $diff)" >> $LOGFILE
       fi
       xl=$((limitX-1))
       for (( xr=0; xr<at; xr++ )); do
@@ -234,6 +235,8 @@ for (( i=0; i<numFold; i++ )); do
   echo "Overlap Count[$i]: $overlap" >> $LOGFILE
   echo "        Count[$i]: $answer" >> $LOGFILE
   echo "      First Count: $answer_one" >> $LOGFILE
+
+  [ $i -eq 0 ] && [ -f $boardFile ] && break
 done
 
 now=$(date +%s)
@@ -241,7 +244,7 @@ diff=$((now-started))
 [ $DEBUG -eq 1 ] && echo "Folding complete: $(convertsecs $diff)"
 echo "Folding complete: $(convertsecs $diff)" >> $LOGFILE
 
-display_board > $boardFile
+! [ -f $boardFile ] && display_board > $boardFile
 cat $boardFile >> $LOGFILE
 [ $DEBUG -eq 1 ] && cat $boardFile
 
