@@ -16,6 +16,7 @@ IFS=$'\n' read -d '' -r -a values < $inputFile;
 height=${#values[@]}
 
 b=()
+n=()
 in=()
 numIn=0
 fold=()
@@ -150,7 +151,7 @@ for (( i=0; i<numFold; i++ )); do
   echo " Limit-y: $limitY" >> $LOGFILE
   echo "    axis: $axis" >> $LOGFILE
   echo "      at: $at" >> $LOGFILE
-  unset n; n=()
+  # unset n; n=()
   if [ $axis = "y" ]; then
     # If the fold axis is 'y' then count up from 0, and down from limitY
     # Make a new array 'n' mapping the last row to the first, second
@@ -161,8 +162,8 @@ for (( i=0; i<numFold; i++ )); do
       if [ $((yu%100)) -eq 0 ]; then
         now=$(date +%s)
         diff=$((now-started))
-        [ $DEBUG -eq 1 ] && echo "folding y axis[$yu]... $(convertsecs $diff)"
-        echo "folding y axis[$yu]... $(convertsecs $diff)" >> $LOGFILE
+        [ $DEBUG -eq 1 ] && echo "folding y axis[$yu]: $(convertsecs $diff)"
+        echo "folding y axis[$yu]: $(convertsecs $diff)" >> $LOGFILE
       fi
       # echo "------ $yu $yd ------" >> $LOGFILE
       for (( ux=0; ux<limitX; ux++ )); do
@@ -171,12 +172,16 @@ for (( i=0; i<numFold; i++ )); do
         # echo "${yu},${ux}[u]: ${b[$uind]}"
         # echo "${yd},${ux}[d]: ${b[$bind]}"
         n[$uind]=0
-        [ ${b[$uind]} -gt 0 ] && n[$uind]=1
-        [ ${b[$bind]} -gt 0 ] && n[$uind]=1
+        [ ${b[$uind]} -gt 0 ] && n[$uind]=$((n[uind]+1))
+        [ ${b[$bind]} -gt 0 ] && n[$uind]=$((n[uind]+1))
+
       done
       yd=$((yd-1))
     done
     # Set the limitY to fold value 
+    # for (( z=$((at*limitX)); z<$((limitX*limitY)); z++ )); do unset b[$z]; done
+    for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] && unset n[$e]; done
+
     unset limitY
     limitY=$at
   else
@@ -200,18 +205,16 @@ for (( i=0; i<numFold; i++ )); do
         xlrind=$(((ty*limitX)+xl))
         # echo "------ ${xr},${ty}[${xrind}] ${b[$xrind]} => | <= ${b[$xlrind]} [${xlrind}]${xl},${ty} ------" >> $LOGFILE
         n[$nind]=0
-        [ ${b[$xrind]} -gt 0 ] && n[$nind]=1
-        [ ${b[$xlrind]} -gt 0 ] && n[$nind]=1
+        [ ${b[$xrind]} -gt 0 ] && n[$nind]=$((n[nind]+1))
+        [ ${b[$xlrind]} -gt 0 ] && n[$nind]=$((n[nind]+1))
         xl=$((xl-1))
       done
     done
     # Set the limitY to fold value 
     unset limitX
     limitX=$at
+    for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] && unset n[$e]; done
   fi
-  unset b
-  b=()
-  for (( e=0; e<${#n[*]}; e++ )); do b[$e]=${n[$e]}; done
 done
 
 now=$(date +%s)
@@ -228,10 +231,12 @@ diff=$((now-started))
 [ $DEBUG -eq 1 ] && echo "Calculating answer: $(convertsecs $diff)"
 echo "Calculating answer: $(convertsecs $diff)" >> $LOGFILE
 answer_one=0
-for q in ${b[*]}; do [ $q -gt 0 ] && answer_one=$((answer_one+1)); done
+overlap=0
+for q in ${b[*]}; do [ $q -gt 0 ] && answer_one=$((answer_one+1)) && overlap=$((overlap+q)); done
 
 
 echo "$answer_one" | tee -a $LOGFILE
+echo "$overlap" | tee -a $LOGFILE
 
 now=$(date +%s)
 diff=$((now-started))
