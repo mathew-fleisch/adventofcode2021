@@ -236,7 +236,7 @@ for (( i=0; i<numFold; i++ )); do
   echo "        Count[$i]: $answer" >> $LOGFILE
   echo "      First Count: $answer_one" >> $LOGFILE
 
-  [ $i -eq 0 ] && [ -f $boardFile ] || [ -f "${scriptPath}/${boardFile}" ] && break
+  [ $i -eq 0 ] && [ -f "${scriptPath}/${boardFile}" ] && break
 done
 
 now=$(date +%s)
@@ -244,7 +244,7 @@ diff=$((now-started))
 [ $DEBUG -eq 1 ] && echo "Folding complete: $(convertsecs $diff)"
 echo "Folding complete: $(convertsecs $diff)" >> $LOGFILE
 
-! [ -f $boardFile ] || ! [ -f "${scriptPath}/${boardFile}" ] && display_board > "${scriptPath}/${boardFile}"
+! [[ -f "${scriptPath}/${boardFile}" ]] && display_board > "${scriptPath}/${boardFile}"
 cat "${scriptPath}/${boardFile}" >> $LOGFILE
 [ $DEBUG -eq 1 ] && cat "${scriptPath}/${boardFile}"
 
