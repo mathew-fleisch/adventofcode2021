@@ -180,11 +180,12 @@ for (( i=0; i<numFold; i++ )); do
     done
     # Set the limitY to fold value 
     # for (( z=$((at*limitX)); z<$((limitX*limitY)); z++ )); do unset b[$z]; done
-    for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] && unset n[$e]; done
+    for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] n[$e]; done
 
     unset limitY
     limitY=$at
   else
+
     # If the fold axis is 'x' then count up from 0 and down from limitX
     # Make a new array 'n' mapping the last column to the first, second
     # to last column to the second column, and so on. Also keep track of
@@ -213,15 +214,22 @@ for (( i=0; i<numFold; i++ )); do
     # Set the limitY to fold value 
     unset limitX
     limitX=$at
-    for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] && unset n[$e]; done
+    for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] n[$e]; done
   fi
 
   answer=0
   overlap=0
-  for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
+  # for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
+  for (( w=0; w<${#b[@]}; w++ )); do
+    if [ ${b[$w]} -gt 0 ]; then
+      answer=$((answer+1))
+      overlap=$((overlap+b[w]))
+    fi
+  done
   [ $i -eq 0 ] && answer_one=$answer
   [ $DEBUG -eq 1 ] && echo "Overlap Count[$i]: $overlap"
   [ $DEBUG -eq 1 ] && echo "        Count[$i]: $answer"
+  [ $DEBUG -eq 1 ] && echo "      First Count: $answer_one"
   echo "Overlap Count[$i]: $overlap" >> $LOGFILE
   echo "        Count[$i]: $answer" >> $LOGFILE
   echo "      First Count: $answer_one" >> $LOGFILE
