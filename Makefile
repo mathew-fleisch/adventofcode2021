@@ -1,3 +1,4 @@
+TDAY?=01
 DAYS?=$(shell seq -f "%02g" 1 25)
 CHALLENGES?=challenge1 challenge2
 TMPDIR?=/tmp
@@ -13,6 +14,17 @@ run:
 			&& $(foreach challenge, $(CHALLENGES), \
 			echo "#> ./${day}/${challenge}.sh ./${day}/input.txt" \
 				&& ./${day}/${challenge}.sh ./${day}/input.txt; ))
+
+.PHONY: run-day
+run-day:
+	@echo "========================================"
+	@echo "  Advent of Code 2021[$(TDAY)] - Mathew Fleisch"
+	@echo "========================================"
+	@echo
+	@echo "<============= 2021/12/${TDAY} =============>" \
+			&& $(foreach challenge, $(CHALLENGES), \
+			echo "#> ./${TDAY}/${challenge}.sh ./${TDAY}/input.txt" \
+				&& DEBUG=1 ./${TDAY}/${challenge}.sh ./${TDAY}/input.txt; )
 
 
 .PHONY: seed
