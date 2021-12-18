@@ -215,6 +215,15 @@ for (( i=0; i<numFold; i++ )); do
     limitX=$at
     for (( e=0; e<${#b[*]}; e++ )); do [ $e -lt $((limitX*limitY)) ] && b[$e]=${n[$e]} || unset b[$e] && unset n[$e]; done
   fi
+
+  answer=0
+  overlap=0
+  for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
+  [ $i -eq 0 ] && answer_one=$answer
+  [ $DEBUG -eq 1 ] && echo "Overlap Count[$i]: $overlap"
+  [ $DEBUG -eq 1 ] && echo "        Count[$i]: $answer"
+  echo "Overlap Count[$i]: $overlap" >> $LOGFILE
+  echo "        Count[$i]: $answer" >> $LOGFILE
 done
 
 now=$(date +%s)
@@ -230,13 +239,17 @@ now=$(date +%s)
 diff=$((now-started))
 [ $DEBUG -eq 1 ] && echo "Calculating answer: $(convertsecs $diff)"
 echo "Calculating answer: $(convertsecs $diff)" >> $LOGFILE
-answer_one=0
+answer=0
 overlap=0
-for q in ${b[*]}; do [ $q -gt 0 ] && answer_one=$((answer_one+1)) && overlap=$((overlap+q)); done
+for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
 
-
-echo "$answer_one" | tee -a $LOGFILE
-echo "$overlap" | tee -a $LOGFILE
+[ $DEBUG -eq 1 ] && echo "  First Count: $answer_one"
+[ $DEBUG -eq 1 ] && echo "   Last Count: $answer"
+[ $DEBUG -eq 1 ] && echo "Overlap Count: $overlap"
+echo "  First Count: $answer_one" >> $LOGFILE
+echo "   Last Count: $answer" >> $LOGFILE
+echo "Overlap Count: $overlap" >> $LOGFILE
+echo "$answer_one"
 
 now=$(date +%s)
 diff=$((now-started))
