@@ -20,7 +20,7 @@ jobs:
             TDAY=$(echo "${changed_file}" | cut -d'/' -f1)
             if [[ -z "$(echo "$allDays" | tr ' ' '\n' | grep $TDAY)" ]]; then
               echo "-${TDAY}---------------------------------------"
-              make run-day | tee /tmp/aoc2021-mathew-fleisch-answers.txt
+              TDAY=${TDAY} make run-day | tee /tmp/aoc2021-mathew-fleisch-answers.txt
               allDays="${allDays} ${TDAY}"
             fi
           done
