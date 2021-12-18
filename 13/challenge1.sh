@@ -236,6 +236,7 @@ for (( i=0; i<numFold; i++ )); do
   echo "        Count[$i]: $answer" >> $LOGFILE
   echo "      First Count: $answer_one" >> $LOGFILE
 
+  [ $i -eq 0 ] && [ -f "${scriptPath}/${boardFile}" ] && [ $DEBUG -eq 1 ] && echo "${scriptPath}/${boardFile} exists... skip to display"
   [ $i -eq 0 ] && [ -f "${scriptPath}/${boardFile}" ] && break
 done
 
