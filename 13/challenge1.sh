@@ -244,9 +244,9 @@ diff=$((now-started))
 [ $DEBUG -eq 1 ] && echo "Folding complete: $(convertsecs $diff)"
 echo "Folding complete: $(convertsecs $diff)" >> $LOGFILE
 
-! [ -f $boardFile ] && display_board > $boardFile
-cat $boardFile >> $LOGFILE
-[ $DEBUG -eq 1 ] && cat $boardFile
+! [ -f $boardFile ] && ! [ -f "${scriptPath}/${boardFile}" ] && display_board > $boardFile
+cat "${scriptPath}/${boardFile}" >> $LOGFILE
+[ $DEBUG -eq 1 ] && cat "${scriptPath}/${boardFile}"
 
 now=$(date +%s)
 diff=$((now-started))
