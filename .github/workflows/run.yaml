@@ -14,12 +14,16 @@ jobs:
         uses: jitterbit/get-changed-files@v1
       - name: Execute challenge answer scripts
         run: |
+          allDays=""
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "Do something with this ${changed_file}."
+            TDAY=$(echo "${changed_file}" | cut -d'/' -f1)
+            if ! [[ ${allDays} =~ ${TDAY} ]]; then
+              echo "----------------------------------------"
+              make run-day | tee /tmp/aoc2021-mathew-fleisch-answers.txt
+              allDays="${allDays} ${TDAY}"
+            fi
           done
-          make seed
-          echo "----------------------------------------"
-          make run-day | tee /tmp/aoc2021-mathew-fleisch-answers.txt
           make zip-log
       - uses: actions/upload-artifact@v2
         with:
