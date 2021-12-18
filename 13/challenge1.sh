@@ -220,10 +220,10 @@ for (( i=0; i<numFold; i++ )); do
   answer=0
   overlap=0
   # for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
-  for (( w=0; w<${#b[@]}; w++ )); do
-    if [ ${b[$w]} -gt 0 ]; then
+  for (( w=0; w<${#n[@]}; w++ )); do
+    if [ ${n[$w]} -gt 0 ]; then
       answer=$((answer+1))
-      overlap=$((overlap+b[w]))
+      overlap=$((overlap+n[w]))
     fi
   done
   [ $i -eq 0 ] && answer_one=$answer
@@ -252,12 +252,12 @@ answer=0
 overlap=0
 for q in ${b[*]}; do [ $q -gt 0 ] && answer=$((answer+1)) && overlap=$((overlap+q)); done
 
-[ $DEBUG -eq 1 ] && echo "  First Count: $answer_one"
-[ $DEBUG -eq 1 ] && echo "   Last Count: $answer"
 [ $DEBUG -eq 1 ] && echo "Overlap Count: $overlap"
-echo "  First Count: $answer_one" >> $LOGFILE
-echo "   Last Count: $answer" >> $LOGFILE
+[ $DEBUG -eq 1 ] && echo "   Last Count: $answer"
+[ $DEBUG -eq 1 ] && echo "  First Count: $answer_one"
 echo "Overlap Count: $overlap" >> $LOGFILE
+echo "   Last Count: $answer" >> $LOGFILE
+echo "  First Count: $answer_one" >> $LOGFILE
 echo "$answer_one"
 
 now=$(date +%s)
