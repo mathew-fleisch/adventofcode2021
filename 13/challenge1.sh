@@ -41,6 +41,7 @@ in_array() {
   [ $found -eq 1 ] && echo $find || echo -1
 }
 display_board() {
+  [ $DEBUG -eq 1 ] && echo "display_board(limitX:$limitX, limitY:$limitY)"
   echo "display_board(limitX:$limitX, limitY:$limitY)" >> $LOGFILE
   for (( dy=0; dy<limitY; dy++ )); do
     local drow=""
@@ -57,6 +58,7 @@ display_board() {
 # Parse source data
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Parsing source data: $(convertsecs $diff)"
 echo "Parsing source data: $(convertsecs $diff)" >> $LOGFILE
 for (( r=0; r<height; r++ )); do
   # echo "-----------------------------"
@@ -83,10 +85,14 @@ limitY=$((limitY+1))
 limitX=$((limitX+1))
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Parsing source data complete: $(convertsecs $diff)" 
+[ $DEBUG -eq 1 ] && echo "Initial limit-x: $limitX"
+[ $DEBUG -eq 1 ] && echo "Initial limit-y: $limitY"
 echo "Parsing source data complete: $(convertsecs $diff)" >> $LOGFILE
 echo "Initial limit-x: $limitX" >> $LOGFILE
 echo "Initial limit-y: $limitY" >> $LOGFILE
 # Now that limits are established, zero out the board
+[ $DEBUG -eq 1 ] && echo "Creating array of zeros. size: ${limitX}x${limitY} => $((limitX*limitY))"
 echo "Creating array of zeros. size: ${limitX}x${limitY} => $((limitX*limitY))" >> $LOGFILE
 for (( y=0; y<limitY; y++ )); do
   for (( x=0; x<limitX; x++ )); do
@@ -104,6 +110,7 @@ done
 # echo " fold: ${fold[*]}"
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Setting board state from input data: $(convertsecs $diff)"
 echo "Setting board state from input data: $(convertsecs $diff)" >> $LOGFILE
 
 for (( i=0; i<numIn; i++ )); do
@@ -119,6 +126,7 @@ done
 
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Begin folding: $(convertsecs $diff)"
 echo "Begin folding: $(convertsecs $diff)" >> $LOGFILE
 # Iterate through each fold command
 for (( i=0; i<numFold; i++ )); do
@@ -130,6 +138,13 @@ for (( i=0; i<numFold; i++ )); do
 
   now=$(date +%s)
   diff=$((now-started))
+  if [ $DEBUG -eq 1 ]; then
+    echo "FOLD[$i]: ${fold[$i]} => $(convertsecs $diff)"
+    echo " Limit-x: $limitX"
+    echo " Limit-y: $limitY"
+    echo "    axis: $axis"
+    echo "      at: $at"
+  fi
   echo "FOLD[$i]: ${fold[$i]} => $(convertsecs $diff)" >> $LOGFILE
   echo " Limit-x: $limitX" >> $LOGFILE
   echo " Limit-y: $limitY" >> $LOGFILE
@@ -199,6 +214,7 @@ done
 
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Folding complete: $(convertsecs $diff)"
 echo "Folding complete: $(convertsecs $diff)" >> $LOGFILE
 
 display_board > $boardFile
@@ -207,6 +223,7 @@ cat $boardFile >> $LOGFILE
 
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Calculating answer: $(convertsecs $diff)"
 echo "Calculating answer: $(convertsecs $diff)" >> $LOGFILE
 answer_one=0
 for q in ${b[*]}; do [ $q -gt 0 ] && answer_one=$((answer_one+1)); done
@@ -216,4 +233,5 @@ echo "$answer_one" | tee -a $LOGFILE
 
 now=$(date +%s)
 diff=$((now-started))
+[ $DEBUG -eq 1 ] && echo "Completed in: $(convertsecs $diff)"
 echo "Completed in: $(convertsecs $diff)" >> $LOGFILE
