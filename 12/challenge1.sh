@@ -47,15 +47,19 @@ in_array() {
 
 # Identify unique caverns
 for (( r=0; r<height; r++ )); do
-  echo "-----------------------------"
-  echo "$r: ${values[$r]}"
+  [ $DEBUG -eq 1 ] && echo "-----------------------------"
+  echo "-----------------------------" >> $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "$r: ${values[$r]}"
+  echo "$r: ${values[$r]}" >> $LOGFILE
   width=${#values[*]}
   split=${values[$r]//-/ }
   left=""
   right=""
   for t in $split; do [ -z "$left" ] && left=$t || right=$t; done
-  echo "left: $left => $(in_array $left "${u[*]}")"
-  echo "right: $right => $(in_array $right "${u[*]}")"
+  [ $DEBUG -eq 1 ] && echo "left: $left => $(in_array $left "${u[*]}")"
+  echo "left: $left => $(in_array $left "${u[*]}")" >> $LOGFILE
+  [ $DEBUG -eq 1 ] && echo "right: $right => $(in_array $right "${u[*]}")"
+  echo "right: $right => $(in_array $right "${u[*]}")" >> $LOGFILE
   if [ $(in_array $left "${u[*]}") -lt 0 ]; then
     u+=($left)
     lind=$(in_array $left "${u[*]}")
@@ -88,16 +92,8 @@ find_path() {
   echo "------------------------" >> $LOGFILE
   echo "  this: $startWith" >> $LOGFILE
   echo "  that: $comingFrom" >> $LOGFILE
-  # echo "${u[$startWith]}"
   if [ $startWith -eq $endInd ]; then
-  # if [ $startWith -ne $endInd ]; then
-    # echo ${comingFrom// /,}
-    # echo "TRIGGER" >> $LOGFILE
-    out=""
-    for cf in $comingFrom; do
-      # echo "$cf"
-      [ $cf -ge 0 ] && out="$out,${u[$cf]}"
-    done
+    out="" && for cf in $comingFrom; do [ $cf -ge 0 ] && out="$out,${u[$cf]}"; done
     echo "${out},end"
     comingFrom=""
   else
@@ -117,12 +113,6 @@ find_path() {
           fi
         fi
       done
-      # sleep 1
-      # echo "$startPath Index: $thisCavern" >> $LOGFILE
-      # [ $thisCavern -eq -1 ] && [[ ${c[$startWith]} =~ end ]] && \
-      #   out="" && for cf in $comingFrom; do [ $cf -ge 0 ] && out="$out,${u[$cf]}"; done && echo $out
-      # [ $thisCavern -eq -1 ] && break
-      # echo "${u[$thisCavern]}"
       [ $thisCavern -ne -1 ] && echo "$(find_path $thisCavern "$comingFrom $startWith")"
     done
   fi
@@ -142,7 +132,7 @@ find_path() {
 [ $DEBUG -eq 1 ] && echo "connections:"
 echo "connections:" >> $LOGFILE
 for (( r=0; r<${#u[*]}; r++ )); do
-[ $DEBUG -eq 1 ] && echo "u[$r]{${u[$r]}}: ${c[$r]}"
+  [ $DEBUG -eq 1 ] && echo "u[$r]{${u[$r]}}: ${c[$r]}"
   echo "u[$r]{${u[$r]}}: ${c[$r]}" >> $LOGFILE
 done
 echo "height: $height" >> $LOGFILE
@@ -158,13 +148,13 @@ for path in $(find_path $startInd -1); do
   if [ $path != ",end" ]; then
     tpath=${path/,/}
     if ! [[ "${uniqPaths[*]}" =~ $tpath ]]; then
-      echo "$tpath"
+      echo "$tpath" >> $LOGFILE
       pathCount=$((pathCount+1))
       uniqPaths+=("$tpath")
     fi
   fi
 done
-echo "Path Count:"
+echo "Path Count: $pathCount" >> $LOGFILE
 
 answer_one="$pathCount"
 
