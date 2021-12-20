@@ -85,16 +85,43 @@ for (( r=0; r<height; r++ )); do
 done
 masterTrack=0
 
+correct_path() {
+  thisPath=${1//,/ }
+  p=0
+  correct=1
+  lazyCorrect=0
+  counts=()
+  for (( w=0; w<${#u[*]}; w++ )); do counts[$w]=0; done
+  for tp in $thisPath; do
+    for (( w=0; w<${#u[*]}; w++ )); do 
+      [ ${u[$w]} = $tp ] \
+        && [ ${b[$w]} -eq 0 ] \
+        && counts[$w]=$((counts[w]+1)) && break; done
+    p=$((p+1))
+  done
+  for lazy in ${counts[*]}; do
+    [ $lazy -gt 1 ] && lazyCorrect=$((lazyCorrect+1))
+  done
+  [ $lazyCorrect -gt 1 ] && correct=0
+  echo $correct
+}
+
 find_path() {
   masterTrack=$((masterTrack+1))
   startWith=$1
   comingFrom=$2
+
+  now=$(date +%s)
+  diff=$((now-started))
+  echo "find_path('$1', '$2'): $(convertsecs $diff)" >> $LOGFILE
   echo "------------------------" >> $LOGFILE
   echo "  this: $startWith" >> $LOGFILE
   echo "  that: $comingFrom" >> $LOGFILE
   if [ $startWith -eq $endInd ]; then
     out="" && for cf in $comingFrom; do [ $cf -ge 0 ] && out="$out,${u[$cf]}"; done
-    echo "${out},end"
+    if [ $(correct_path "$out,end") -eq 1 ]; then
+      echo "${out},end"
+    fi
     comingFrom=""
   else
     for startPath in ${c[$startWith]}; do
@@ -118,12 +145,15 @@ find_path() {
   fi
   if [ $startWith -ge 0 ]; then
     if [[ ${c[$startWith]} =~ end ]]; then
+
       out=""
       for cf in $comingFrom; do 
         [ $cf -ge 0 ] && out="$out,${u[$cf]}"
       done
-      echo "find_path() => $out,${u[$startWith]},end" >> $LOGFILE
-      echo "$out,${u[$startWith]},end"
+      if [ $(correct_path "$out,${u[$startWith]},end") -eq 1 ]; then
+        echo "find_path() => $out,${u[$startWith]},end" >> $LOGFILE
+        echo "$out,${u[$startWith]},end"
+      fi
     fi
   fi
 }
@@ -142,39 +172,16 @@ echo " upper: ${b[*]}" >> $LOGFILE
 echo " start: $startInd" >> $LOGFILE
 echo "   end: $endInd" >> $LOGFILE
 
-correct_path() {
-  thisPath=${1//,/ }
-  p=0
-  correct=1
-  lazyCorrect=0
-  counts=()
-  # echo "$thisPath"
-  for (( w=0; w<${#u[*]}; w++ )); do counts[$w]=0; done
-  for tp in $thisPath; do
-    for (( w=0; w<${#u[*]}; w++ )); do 
-      [ ${u[$w]} = $tp ] \
-        && [ ${b[$w]} -eq 0 ] \
-        && counts[$w]=$((counts[w]+1)) && break; done
-    p=$((p+1))
-  done
-  for lazy in ${counts[*]}; do
-    [ $lazy -gt 1 ] && lazyCorrect=$((lazyCorrect+1))
-  done
-  [ $lazyCorrect -gt 1 ] && correct=0
-  echo $correct
-}
-
 pathCount=0
 uniqPaths=()
 for path in $(find_path $startInd -1); do
   if [ $path != ",end" ]; then
     tpath=${path/,/}
-    if [ $(correct_path $tpath) -eq 1 ]; then
-      if ! [[ "${uniqPaths[*]}" =~ $tpath ]]; then
-        echo "$tpath" >> $LOGFILE
-        pathCount=$((pathCount+1))
-        uniqPaths+=("$tpath")
-      fi
+    if ! [[ "${uniqPaths[*]}" =~ $tpath ]]; then
+      [ $DEBUG -eq 1 ] && echo "$tpath"
+      echo "$tpath" >> $LOGFILE
+      pathCount=$((pathCount+1))
+      uniqPaths+=("$tpath")
     fi
   fi
 done
